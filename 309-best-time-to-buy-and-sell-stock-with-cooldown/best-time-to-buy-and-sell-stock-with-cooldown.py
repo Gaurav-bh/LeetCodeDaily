@@ -4,16 +4,21 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        sold, held, reset = float('-inf'), float('-inf'), 0
+        L = len(prices)
+        # padding the array with additional zero to simply the logic
+        MP = [0] * (L + 2)
 
-        for price in prices:
-            # Alternative: the calculation is done in parallel.
-            # Therefore no need to keep temporary variables
-            #sold, held, reset = held + price, max(held, reset-price), max(reset, sold)
+        for i in range(L-1, -1, -1):
+            C1 = 0
+            # Case 1). buy and sell the stock
+            for sell in range(i + 1, L):
+                profit = (prices[sell] - prices[i]) + MP[sell + 2]
+                C1 = max(profit, C1)
 
-            pre_sold = sold
-            sold = held + price
-            held = max(held, reset - price)
-            reset = max(reset, pre_sold)
+            # Case 2). do no transaction with the stock p[i]
+            C2 = MP[i + 1]
 
-        return max(sold, reset)
+            # sum up two cases
+            MP[i] = max(C1, C2)
+
+        return MP[0]
