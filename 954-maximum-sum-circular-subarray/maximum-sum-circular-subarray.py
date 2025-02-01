@@ -27,7 +27,5 @@ class Solution:
         if sum==min_sum:
             return max_sum
         else:
-            if max_sum>sum-min_sum:
-                return max_sum
-            else:
-                return sum-min_sum
+            return max(max_sum,sum-min_sum)
+                
