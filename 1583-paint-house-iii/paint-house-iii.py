@@ -27,5 +27,7 @@ class Solution:
         return val
 
 
+
+        dp=[[math.inf for i in range(m)] for j in range(target)]
         
 
