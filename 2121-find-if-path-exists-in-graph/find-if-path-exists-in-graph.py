@@ -5,15 +5,19 @@ class Solution:
             adj[i[0]].append(i[1])
             adj[i[1]].append(i[0])
         
-        def dfs(curr,adj,visited):
-            if curr==destination:
-                return True
-            visited[curr]=True
-            for i in adj[curr]:
-                if i not in visited:
-                    if dfs(i,adj,visited):
-                        return True
+        def bfs(source,adj,visited):
+            q=[]
+            q.append(source)
+            visited[source]=True
+            while q:
+                curr=q.pop(0)
+                if curr==destination:
+                    return True
+                for i in adj[curr]:
+                    if i not in visited:
+                        visited[i]=True
+                        q.append(i)
             return False
         visited={}
-        return dfs(source,adj,visited)
+        return bfs(source,adj,visited)
         
