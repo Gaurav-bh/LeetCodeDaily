@@ -1,22 +1,28 @@
 class Solution:
     def lenLongestFibSubseq(self, arr: list[int]) -> int:
-        # Store array elements in set for O(1) lookup
-        num_set = set(arr)
-        max_len = 0
         n = len(arr)
+        max_len = 0
+        # dp[prev][curr] stores length of Fibonacci sequence ending at indexes prev,curr
+        dp = [[0] * n for _ in range(n)]
 
-        # Try all possible first two numbers of sequence
-        for start in range(n):
-            for next in range(start + 1, n):
-                # Start with first two numbers
-                prev = arr[next]
-                curr = arr[start] + arr[next]
-                curr_len = 2
+        # Map each value to its index for O(1) lookup
+        val_to_idx = {num: idx for idx, num in enumerate(arr)}
 
-                # Keep finding next Fibonacci number
-                while curr in num_set:
-                    prev, curr = curr, curr + prev
-                    curr_len += 1
-                    max_len = max(max_len, curr_len)
+        # Fill dp array
+        for curr in range(n):
+            for prev in range(curr):
+                # Find if there exists a previous number to form Fibonacci sequence
+                diff = arr[curr] - arr[prev]
+                prev_idx = val_to_idx.get(diff, -1)
 
-        return max_len  
+                # Update dp if valid Fibonacci sequence possible
+                # diff < arr[prev] ensures strictly increasing sequence
+                dp[prev][curr] = (
+                    dp[prev_idx][prev] + 1
+                    if diff < arr[prev] and prev_idx >= 0
+                    else 2
+                )
+                max_len = max(max_len, dp[prev][curr])
+
+        # Return 0 if no sequence of length > 2 found
+        return max_len if max_len > 2 else 0
