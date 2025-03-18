@@ -1,5 +1,6 @@
 class Solution:
     def longestStrChain(self, words: List[str]) -> int:
+        word_set=set(words)
         def dfs(currWord,MEMO):
             if currWord in MEMO:
                 return MEMO[currWord]
@@ -7,7 +8,7 @@ class Solution:
             maxLength=1
             for i in range(len(currWord)):
                 newWord=currWord[:i]+currWord[i+1:]
-                if newWord in words:
+                if newWord in word_set:
                     maxLength=max(maxLength,1+dfs(newWord,MEMO))
             MEMO[currWord]=maxLength
             return maxLength
