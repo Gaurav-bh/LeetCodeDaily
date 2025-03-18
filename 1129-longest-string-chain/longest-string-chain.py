@@ -14,8 +14,9 @@ class Solution:
             return maxLength
         
         ans=0
+        MEMO={}
         for word in words:
-            MEMO={}
+           
             ans=max(ans,dfs(word,MEMO))
         return ans
         
