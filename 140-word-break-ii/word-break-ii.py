@@ -3,7 +3,7 @@ class Solution:
         wordDict=set(wordDict)
         n=len(s)
         dp={}
-        def recursion(ind,st,curr,ans):
+        def recursion(st,curr,ans):
             if len(st)==0:
                 s=""
                 l=len(curr)
@@ -24,14 +24,14 @@ class Solution:
                     #print(st[:i+1])
                     #print(st[i+1:])
                     curr.append(st[:i+1])
-                    recursion(i+1,st[i+1:],curr,ans)
+                    recursion(st[i+1:],curr,ans)
                     curr.pop()
            
             return False
         curr=[]
         ans=[]
 
-        recursion(0,s,curr,ans)
+        recursion(s,curr,ans)
         print(ans)
         return ans
         
