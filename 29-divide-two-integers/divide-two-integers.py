@@ -22,6 +22,7 @@ class Solution:
             powerOfTwo = -1
             value = divisor
             while value >= HALF_MIN_INT and value + value >= dividend:
+                print(value)
                 value += value
                 powerOfTwo += powerOfTwo
             quotient += powerOfTwo
