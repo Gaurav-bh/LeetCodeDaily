@@ -1,63 +1,63 @@
 class Solution:
     MOD = 10**9 + 7
+    def maximumScore(self, nums: List[int], k: int) -> int:
+        n=len(nums)
+        def prime_list(nums):
+            MAXN = max(nums)
+            spf = [1] * (MAXN + 1)
+            
+            def sieve():
+                spf[0] = 0
+                for i in range(2, MAXN + 1):
+                    if spf[i] == 1: 
+                        for j in range(i, MAXN + 1, i):
+                            if spf[j] == 1:  
+                                spf[j] = i
 
-    def maximumScore(self, nums, k):
-        n = len(nums)
-        prime_scores = [0] * n
+            def getFactorization(x):
+                ret = list()
+                while (x > 1):
+                    if spf[x] not in ret:
+                        ret.append(spf[x])
+                    x = x // spf[x]  
+                return ret   
+            sieve()
+            prime=[]
+            for num in nums:
+                prime.append(len(getFactorization(num)))
 
-        # Calculate the prime score for each number in nums
-        for index in range(n):
-            num = nums[index]
+            return prime
+        
 
-            # Check for prime factors from 2 to sqrt(n)
-            for factor in range(2, int(math.sqrt(num)) + 1):
-                if num % factor == 0:
-                    # Increment prime score for each prime factor
-                    prime_scores[index] += 1
+        prime=prime_list(nums)
 
-                    # Remove all occurrences of the prime factor from num
-                    while num % factor == 0:
-                        num //= factor
+        print(prime)
+        
+        
+        def greater_prime(nums,prime,n):
+            right=[n for i in range(n)]
+            left=[-1 for i in range(n)]
+            stack=[0]
+            for i in range(1,n):
+                curr=nums[i]
+                while stack and prime[stack[-1]]<prime[i]:
+                    ind=stack.pop()
+                    right[ind]=i
+                if stack:
+                    left[i]=stack[-1]
+                stack.append(i)
+            return right,left
+        right,left=greater_prime(nums,prime,n)
 
-            # If num is still greater than or equal to 2, it's a prime factor
-            if num >= 2:
-                prime_scores[index] += 1
+        print(left)
+        print(right)
+        #ranges
+        ranges=[0 for i in range(n)]
+        for i in range(n):
+            ranges[i]=(i - left[i]) * (right[i] - i)
+        print(ranges)
 
-        # Initialize next and previous dominant index arrays
-        next_dominant = [n] * n
-        prev_dominant = [-1] * n
 
-        # Stack to store indices for monotonic decreasing prime score
-        decreasing_prime_score_stack = []
-
-        # Calculate the next and previous dominant indices for each number
-        for index in range(n):
-            # While the stack is not empty and the current prime score is greater than the stack's top
-            while (
-                decreasing_prime_score_stack
-                and prime_scores[decreasing_prime_score_stack[-1]]
-                < prime_scores[index]
-            ):
-                top_index = decreasing_prime_score_stack.pop()
-
-                # Set the next dominant element for the popped index
-                next_dominant[top_index] = index
-
-            # If the stack is not empty, set the previous dominant element for the current index
-            if decreasing_prime_score_stack:
-                prev_dominant[index] = decreasing_prime_score_stack[-1]
-
-            # Push the current index onto the stack
-            decreasing_prime_score_stack.append(index)
-
-        # Calculate the number of subarrays in which each element is dominant
-        num_of_subarrays = [0] * n
-        for index in range(n):
-            num_of_subarrays[index] = (next_dominant[index] - index) * (
-                index - prev_dominant[index]
-            )
-
-        # Priority queue to process elements in decreasing order of their value
         processing_queue = []
 
         # Push each number and its index onto the priority queue
@@ -81,18 +81,14 @@ class Solution:
                 exponent //= 2
 
             return res
-        print(prime_scores)
-        print(prev_dominant)
-        print(next_dominant)
-        print(num_of_subarrays)
-        # Process elements while there are operations left
+
         while k > 0:
             # Get the element with the maximum value from the queue
             num, index = heapq.heappop(processing_queue)
             num = -num  # Negate back to positive
 
             # Calculate the number of operations to apply on the current element
-            operations = min(k, num_of_subarrays[index])
+            operations = min(k, ranges[index])
 
             # Update the score by raising the element to the power of operations
             score = (score * _power(num, operations)) % self.MOD
@@ -101,3 +97,5 @@ class Solution:
             k -= operations
 
         return score
+    
+        
