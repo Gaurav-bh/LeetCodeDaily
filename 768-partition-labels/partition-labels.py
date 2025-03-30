@@ -10,13 +10,10 @@ class Solution:
         ans=[]
         last=-1
         while i<s_len:
-            rev=last_index[ord(s[i])-97]
-            while i<s_len and i<rev:
-                #print(i,rev)
-                rev=max(rev,last_index[ord(s[i])-97])
-                i+=1
-            ans.append(rev-last)
-            last=rev
+            rev=max(rev,last_index[ord(s[i])-97])
+            if i==rev:
+                ans.append(rev-last)
+                last=rev
             i+=1
         return ans
 
