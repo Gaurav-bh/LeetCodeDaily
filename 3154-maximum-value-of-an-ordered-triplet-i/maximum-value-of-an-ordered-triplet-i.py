@@ -6,7 +6,7 @@ class Solution:
             for j in range(i+1,n):
                 for k in range(j+1,n):
                    val= (nums[i] - nums[j]) * nums[k]
-                   print(val)
+                   #print(val)
                    max_val=max(max_val,val)
         return max_val
 
