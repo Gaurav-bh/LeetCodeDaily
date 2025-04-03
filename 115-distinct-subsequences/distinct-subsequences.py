@@ -7,7 +7,7 @@ class Solution:
 
             M, N = len(s), len(t)
 
-            if i == M or j == N or M - i < N - j:
+            if i == M or j == N :
                 return int(j == N)
 
             if (i, j) in memo:
