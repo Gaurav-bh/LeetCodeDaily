@@ -1,30 +1,64 @@
+class DoubleLinkedNode:
+    def __init__(self, value: tuple):
+        self.value=value
+        self.prev=None
+        self.Next=None
+    
+    
+
 class Router:
 
     def __init__(self, memoryLimit: int):
-        self.limit = memoryLimit
-        self.dq = deque()
-        self.exist = set()
+        self.memoryLimit=memoryLimit
+        self.packet_hash={}
+        
+        self.front=DoubleLinkedNode(())
+        self.back=DoubleLinkedNode(())
+        self.front.next=self.back
+        self.back.prev=self.front
+        self.back.next=self.front
+        self.front.prev=self.back
+        self.count=0
         self.dl = defaultdict(deque)
-
-    def _removeOldest_(self):
-        oldest = self.dq.popleft()
-        self.exist.discard(oldest)
-        self.dl[oldest[1]].popleft()
-        return oldest
+        
 
     def addPacket(self, source: int, destination: int, timestamp: int) -> bool:
-        if (source, destination, timestamp) in self.exist:
-            return False
-        if len(self.dq) == self.limit:
-            self._removeOldest_()
-        self.dq.append((source, destination, timestamp))
-        self.exist.add((source, destination, timestamp))
+        if (source,destination,timestamp) in self.packet_hash:
+            #print("present in hash")
+            return False 
+        if self.count==self.memoryLimit:
+            self.forwardPacket()
+        #print((source,destination,timestamp))
+        curr_node=DoubleLinkedNode((source,destination,timestamp))
+        
+        self.packet_hash[(source,destination,timestamp)]=curr_node
+        #add in linked list 
+        self.count+=1
         self.dl[destination].append(timestamp)
+        self.back.prev.next=curr_node
+        curr_node.next=self.back
+        curr_node.prev=self.back.prev
+        self.back.prev=curr_node
         return True
         
+        
+        
+
     def forwardPacket(self) -> List[int]:
-        if not self.dq: return []
-        return self._removeOldest_()
+        if self.count==0:
+            return []
+        curr=self.front.next
+        next=self.front.next.next
+        next.prev=self.front
+        self.front.next=next
+        print(curr.value)
+        del self.packet_hash[curr.value]
+        self.dl[curr.value[1]].popleft()
+        self.count-=1
+        return list(curr.value)
+        
+            
+        
 
     def getCount(self, destination: int, startTime: int, endTime: int) -> int:
         tList = self.dl[destination]
@@ -42,3 +76,12 @@ class Router:
             else: r = m - 1
         rightMost = r
         return rightMost - leftMost + 1
+            
+        
+
+
+# Your Router object will be instantiated and called as such:
+# obj = Router(memoryLimit)
+# param_1 = obj.addPacket(source,destination,timestamp)
+# param_2 = obj.forwardPacket()
+# param_3 = obj.getCount(destination,startTime,endTime)
