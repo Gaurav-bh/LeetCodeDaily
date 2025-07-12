@@ -7,13 +7,13 @@ class Solution:
         max_len=0
         while r<string_len:
             curr_char=s[r]
-            while l<=r and curr_char in char_hash:
-                del char_hash[s[l]]
-                l+=1
-            
+            if curr_char in char_hash and l<char_hash[curr_char]+1:
+                l=char_hash[curr_char]+1
+            #print(l,r)
             max_len=max(max_len,r-l+1)
-            char_hash[curr_char]=True
+            char_hash[curr_char]=r
             r+=1
+            #print(char_hash)
         return max_len
         
             
