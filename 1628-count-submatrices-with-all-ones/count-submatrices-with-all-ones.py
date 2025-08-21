@@ -1,25 +1,18 @@
 class Solution:
     def numSubmat(self, mat: List[List[int]]) -> int:
         m, n = len(mat), len(mat[0])
-        
-        #precipitate mat to histogram 
+        res = 0
+        row = [[0] * n for _ in range(m)]
         for i in range(m):
             for j in range(n):
-                if mat[i][j] and i > 0: 
-                    mat[i][j] += mat[i-1][j] #histogram 
-        
-        ans = 0
-        for i in range(m):
-            stack = [] #mono-stack of indices of non-decreasing height
-            cnt = 0
-            for j in range(n):
-                while stack and mat[i][stack[-1]] > mat[i][j]: 
-                    jj = stack.pop()                          #start
-                    kk = stack[-1] if stack else -1           #end
-                    cnt -= (mat[i][jj] - mat[i][j])*(jj - kk) #adjust to reflect lower height
-
-                cnt += mat[i][j] #count submatrices bottom-right at (i, j)
-                ans += cnt
-                stack.append(j)
-
-        return ans
+                if j == 0:
+                    row[i][j] = mat[i][j]
+                else:
+                    row[i][j] = 0 if mat[i][j] == 0 else row[i][j - 1] + 1
+                cur = row[i][j]
+                for k in range(i, -1, -1):
+                    cur = min(cur, row[k][j])
+                    if cur == 0:
+                        break
+                    res += cur
+        return res
