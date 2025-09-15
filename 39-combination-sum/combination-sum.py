@@ -1,15 +1,14 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        n=len(candidates)
-        def recur(s,ans,curr,ind):
-            if s==0:
+        n = len(candidates)
+        def rec(ans, curr, sum , ind):
+            if sum==0:
                 ans.append(curr.copy())
                 return 
-            if s<0:
+            if sum < 0 :
                 return 
-            for i in range(ind,n):
-                recur(s-candidates[i],ans,curr+[candidates[i]],i)
+            for i in range(ind, n):
+                rec(ans, curr + [candidates[i]], sum - candidates[i], i)
         ans=[]
-        recur(target,ans,[],0)
+        rec(ans, [], target, 0)
         return ans
-        
