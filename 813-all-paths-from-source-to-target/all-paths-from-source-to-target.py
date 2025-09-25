@@ -1,23 +1,22 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        n=len(graph)
-        
-        def dfs(curr,adj,path,ans):
-            
-            if curr==(n-1):
-                #path.append(curr)
-                ans.append(path.copy())
-                return
-             
-            for i in adj[curr]:
-                if i not in path:
-                    path.append(i)
-                    dfs(i,adj,path,ans)
-                    path.pop()          
-            return 
-        path=[0]
-        ans=[]
-        dfs(0,graph,path,ans)
-        return ans
-        
-        
+        paths = []
+        if not graph or len(graph) == 0:
+            return paths
+
+        queue = deque()
+        path = [0]
+        queue.append(path)
+
+        while queue:
+            current_path = queue.popleft()
+            node = current_path[-1]
+            for next_node in graph[node]:
+                temp_path = current_path.copy()
+                temp_path.append(next_node)
+
+                if next_node == len(graph) - 1:
+                    paths.append(temp_path)
+                else:
+                    queue.append(temp_path)
+        return paths
