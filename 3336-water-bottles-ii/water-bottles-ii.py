@@ -3,7 +3,7 @@ class Solution:
         empty = 0
         ans = 0
         while (numBottles+empty)>=numExchange:
-            print(numBottles, empty, numExchange)
+            #print(numBottles, empty, numExchange)
             ans += numBottles
             empty += numBottles
             numBottles = 0
