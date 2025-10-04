@@ -3,8 +3,9 @@ class Solution:
         n = len(height)
         l, r = 0, n-1
         maxArea = 0
+        area = 0
         while l<r:
-            area = 0
+            
             if height[l]<height[r]:
                 area = height[l]*(r-l)
                 l+=1
