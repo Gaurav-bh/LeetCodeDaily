@@ -8,6 +8,7 @@ class Solution:
             if (index,mod) in dp: return dp[(index,mod)]
             a = recursion(index + 1, (mod + nums[index]) % 3) + nums[index]
             b = recursion(index + 1 , mod)
+            print(a,b)
             ans = max(a,b)
             dp[(index,mod)] = ans
             return ans
