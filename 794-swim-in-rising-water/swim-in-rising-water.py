@@ -13,3 +13,6 @@ class Solution(object):
                 if 0 <= cr < N and 0 <= cc < N and (cr, cc) not in seen:
                     heapq.heappush(pq, (grid[cr][cc], cr, cc))
                     seen.add((cr, cc))
+
+
+                    
