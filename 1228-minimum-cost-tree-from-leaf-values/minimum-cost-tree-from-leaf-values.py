@@ -1,17 +1,11 @@
 class Solution:
     def mctFromLeafValues(self, arr: List[int]) -> int:
-        return self.helper(arr, 0, len(arr) - 1, {})
-        
-    def helper(self, arr, l, r, cache):
-        if (l, r) in cache:
-            return cache[(l, r)]
-        if l >= r:
-            return 0
-        
-        res = float('inf')
-        for i in range(l, r):
-            rootVal = max(arr[l:i+1]) * max(arr[i+1:r+1])
-            res = min(res, rootVal + self.helper(arr, l, i, cache) + self.helper(arr, i + 1, r, cache))
-        
-        cache[(l, r)] = res
+        res = 0
+        while len(arr) > 1:
+            index = arr.index(min(arr))
+            if 0 < index < len(arr) - 1:
+                res += arr[index] * min(arr[index - 1], arr[index + 1])
+            else:
+                res += arr[index] * (arr[index + 1] if index == 0 else arr[index - 1])
+            arr.pop(index)
         return res
