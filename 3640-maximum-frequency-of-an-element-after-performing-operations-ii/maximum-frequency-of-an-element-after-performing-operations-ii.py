@@ -23,7 +23,7 @@ class Solution:
         num_count[nums[last_num_index]] = len(nums) - last_num_index
         ans = max(ans, len(nums) - last_num_index)
         add_mode(nums[last_num_index])
-        print(modes)
+        #print(modes)
         for mode in sorted(modes):
             l = bisect.bisect_left(nums, mode - k)
             r = bisect.bisect_right(nums, mode + k) - 1
