@@ -11,8 +11,10 @@ class Solution:
             prev = head
             head = head.next
         res = head
+        if not head:
+            return None
 
-        while head and head.next:
+        while head.next:
             if head.next.val in nums:
                 head.next = head.next.next
             else:
