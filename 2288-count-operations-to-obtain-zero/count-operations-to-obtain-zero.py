@@ -6,9 +6,9 @@ class Solution:
                 return 0
             c = 0
             if num1>=num2:
-                c += count(num1-num2,num2)+1
+                c += count(num1%num2,num2)+num1//num2
             else:
-                c += count(num1,num2-num1)+1
+                c += count(num1,num2%num1)+num2//num1
             return c
         
 
