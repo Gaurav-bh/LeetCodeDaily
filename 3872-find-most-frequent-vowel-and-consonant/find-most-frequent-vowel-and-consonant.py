@@ -4,23 +4,22 @@ class Solution:
         consoment = SortedDict()
         vowelList = set("AEIOUaeiou")
         print(vowelList)
+        vowelMax = 0
+        conMax = 0
 
         for char in s:
             if char in vowelList:
                 if char not in vowel:
                     vowel[char] = 0
                 vowel[char] +=1
+                vowelMax = max(vowelMax,vowel[char])
+
             else:
                 if char not in consoment:
                     consoment[char] = 0
                 consoment[char] +=1
-        vowelMax = 0
-        conMax = 0
-        for i in vowel:
-            vowelMax = max(vowelMax,vowel[i])
+                conMax = max(conMax,consoment[char])
         
-        for i in consoment:
-            conMax = max(conMax,consoment[i])
         return conMax + vowelMax
 
 
