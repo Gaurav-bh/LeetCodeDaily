@@ -1,26 +1,9 @@
+from collections import Counter
+
+
 class Solution:
     def maxFreqSum(self, s: str) -> int:
-        vowel = SortedDict()
-        consoment = SortedDict()
-        vowelList = set("AEIOUaeiou")
-        print(vowelList)
-        vowelMax = 0
-        conMax = 0
-
-        for char in s:
-            if char in vowelList:
-                if char not in vowel:
-                    vowel[char] = 0
-                vowel[char] +=1
-                vowelMax = max(vowelMax,vowel[char])
-
-            else:
-                if char not in consoment:
-                    consoment[char] = 0
-                consoment[char] +=1
-                conMax = max(conMax,consoment[char])
-        
-        return conMax + vowelMax
-
-
-        
+        mp = Counter(s)
+        vowel = max((mp[ch] for ch in mp if ch in "aeiou"), default=0)
+        consonant = max((mp[ch] for ch in mp if ch not in "aeiou"), default=0)
+        return vowel + consonant
