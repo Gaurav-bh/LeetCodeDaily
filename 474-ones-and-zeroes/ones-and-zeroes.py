@@ -30,3 +30,6 @@ class Solution:
             dp.append([[-1 for i in range(n+1)] for j in range(m+1)])
         
         return recur(dp,0,0,0)
+
+            
+        
