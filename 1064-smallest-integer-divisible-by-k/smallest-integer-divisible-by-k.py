@@ -12,5 +12,5 @@ class Solution:
             hash[mod] = True
             n = mod*10 +1
             count += 1
-        return -1
+        #return -1
         
