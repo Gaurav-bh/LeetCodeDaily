@@ -1,26 +1,20 @@
 class Solution:
     def countCollisions(self, directions: str) -> int:
-        stack = []
-        count = 0
-        n = len(directions)
-        for i in directions:
-            if i=="L" and not stack:
-                count += 1
-            else :
-                stack.append(i)
-        stack = []
-        sCount = 0 
-        for i in directions[::-1]:
-            print(i)
-            if i=="S":
-                sCount += 1
-            if i=="R" and not stack:
-                count += 1
-            else :
-                stack.append(i)
-        return n-count-sCount
+        res = 0
+        flag = -1
 
-        
-
-
-        
+        for c in directions:
+            if c == "L":
+                if flag >= 0:
+                    res += flag + 1
+                    flag = 0
+            elif c == "S":
+                if flag > 0:
+                    res += flag
+                flag = 0
+            else:
+                if flag >= 0:
+                    flag += 1
+                else:
+                    flag = 1
+        return res
