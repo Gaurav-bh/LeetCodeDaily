@@ -8,7 +8,7 @@ class Solution:
             for i in range(n):
                 curr = s[i]
                 col = k[i][-1]
-                print(curr,col)
+                #print(curr,col)
                 if col>curr:
                     
                     ans.add(i)
