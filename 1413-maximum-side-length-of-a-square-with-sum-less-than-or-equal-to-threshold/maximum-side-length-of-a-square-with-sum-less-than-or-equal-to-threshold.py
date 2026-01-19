@@ -23,7 +23,7 @@ class Solution:
                         and j + c - 1 <= n
                         and getRect(i, j, i + c - 1, j + c - 1) <= threshold
                     ):
-                        ans = c
+                        ans +=1 
                     else:
                         break
         return ans
