@@ -1,27 +1,29 @@
 class Solution:
     def maxSideLength(self, mat: List[List[int]], threshold: int) -> int:
-        n = len(mat)
-        m = len(mat[0])
-        prefix = [ [0 for i in range(m+1)] for j in range(n+1)]
+        m, n = len(mat), len(mat[0])
+        P = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                P[i][j] = (
+                    P[i - 1][j]
+                    + P[i][j - 1]
+                    - P[i - 1][j - 1]
+                    + mat[i - 1][j - 1]
+                )
 
-        for i in range(1,n+1):
-            for j in range(1,m+1):
-                prefix[i][j] += mat[i-1][j-1]
-                prefix[i][j] += prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1]
+        def getRect(x1, y1, x2, y2):
+            return P[x2][y2] - P[x1 - 1][y2] - P[x2][y1 - 1] + P[x1 - 1][y1 - 1]
 
-        def calculate(i, j):
-            k = min(i, j)
-            #print(i,j)
-            for l in range(k,0,-1):
-                s = prefix[i][j] - prefix[i-l][j] - prefix[i][j-l] + prefix[i-l][j-l]
-                #print(s)
-                if s <= threshold:
-                    return l
-            return 0                 
-        
-        maxS = 0
-        for i in range(n):
-            for j in range(m):
-                maxS = max(maxS,calculate(i+1,j+1))
-        return maxS
-        
+        r, ans = min(m, n), 0
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                for c in range(ans + 1, r + 1):
+                    if (
+                        i + c - 1 <= m
+                        and j + c - 1 <= n
+                        and getRect(i, j, i + c - 1, j + c - 1) <= threshold
+                    ):
+                        ans = c
+                    else:
+                        break
+        return ans
