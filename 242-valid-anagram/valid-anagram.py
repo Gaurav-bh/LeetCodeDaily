@@ -1,12 +1,14 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        arrT = [0 for i in range(26)]
-        arrS = [0 for i in range(26)]
+        arrT = defaultdict(int)
+        arrS = defaultdict(int)
         for i in s:
-            arrS[ord(i)-ord('a')] += 1
+            arrS[i] += 1
         for i in t:
-            arrT[ord(i)-ord('a')] += 1
-        for i in range(26):
+            arrT[i] += 1
+        if len(arrT) != len(arrS):
+            return False
+        for i in arrS:
             if arrS[i] != arrT[i]:
                 return False
         return True
