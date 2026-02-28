@@ -9,8 +9,7 @@ class Solution:
             if i & (i-1) == 0:
                 length += 1
         
-            ans = ans<<length
-            ans += i
+            ans = ans<<length | i
             ans = ans %MOD
         
         return ans
