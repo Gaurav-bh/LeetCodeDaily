@@ -32,7 +32,7 @@ class Solution:
                 #print("res",res)
                 return 
 
-                return True
+                
             for i in range(n):
                 if valid(ind,i,board):
                     board[ind][i]='Q'
