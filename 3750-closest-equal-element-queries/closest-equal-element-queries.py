@@ -1,19 +1,26 @@
 class Solution:
     def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
-        sz = len(nums)
-        indices = defaultdict(list)
-        for i, num in enumerate(nums):
-            indices[num].append(i)
-        for arr in indices.values():
-            m = len(arr)
-            if m == 1:
-                nums[arr[0]] = -1
-                continue
-            for i in range(m):
-                f, b = arr[(i + 1) % m], arr[(i - 1 + m) % m]
-                forward = min((sz - arr[i] - 1) + f + 1, abs(arr[i] - f))
-                backward = min(abs(b - arr[i]), arr[i] + (sz - b))
-                nums[arr[i]] = min(backward, forward)
+        n = len(nums)
+        nums_pos = defaultdict(list)
+
+        for i in range(n):
+            nums_pos[nums[i]].append(i)
+
+        for pos in nums_pos.values():
+            x = pos[0]
+            pos.insert(0, pos[-1] - n)
+            pos.append(x + n)
+
         for i in range(len(queries)):
-            queries[i] = nums[queries[i]]
+            x = nums[queries[i]]
+            pos_list = nums_pos[x]
+            if len(pos_list) == 3:
+                queries[i] = -1
+                continue
+            pos = bisect.bisect_left(pos_list, queries[i])
+            queries[i] = min(
+                pos_list[pos + 1] - pos_list[pos],
+                pos_list[pos] - pos_list[pos - 1],
+            )
+
         return queries
