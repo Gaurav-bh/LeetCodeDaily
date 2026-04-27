@@ -4,6 +4,8 @@ class Solution:
         def rec(nums,curr,ans,ind):
             ans.append(curr.copy())
             for i in range(ind,n):
+                if i!=ind and nums[i]==nums[i-1]:
+                    continue
                 
                 rec(nums,curr+[nums[i]],ans,i+1)
                 
