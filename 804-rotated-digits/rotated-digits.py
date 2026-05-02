@@ -1,19 +1,26 @@
 class Solution:
     def rotatedDigits(self, n: int) -> int:
-        def check(number):
-            validDigits={2,5,6,9}
-            nonValidDigits={3,4,7,}
-            flag=False
-            while number:
-                digit=number%10
-                if digit  in validDigits:
-                    flag=True
-                if digit in nonValidDigits:
-                    return False 
-                number//=10
-            return flag
-        count=0
+        rotateDigit = {0:0, 1:1, 8:8, 2:5, 5:2, 6:9, 9:6  }
+
+        def check(n):
+            temp = n
+            newNum = 0
+            k = 0
+            while n:
+                r = n%10
+                n = n//10
+                if r not in rotateDigit:
+                    return False
+                newNum = (10**k)*rotateDigit[r]+newNum 
+                k += 1  
+            return newNum != temp
+        count = 0
+    
         for i in range(1,n+1):
+            print(i)
             if check(i):
-                count+=1
+                print("yes")
+                count += 1
         return count
+
+        
