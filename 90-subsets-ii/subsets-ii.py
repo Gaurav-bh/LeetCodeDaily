@@ -6,9 +6,9 @@ class Solution:
             for i in range(ind,n):
                 if i!=ind and nums[i]==nums[i-1]:
                     continue
-                curr.append(nums[i])
-                rec(nums,curr,ans,i+1)
-                curr.pop()
+                
+                rec(nums,curr+[nums[i]],ans,i+1)
+                
         ans=[]
         nums.sort()
         rec(nums,[],ans,0)
