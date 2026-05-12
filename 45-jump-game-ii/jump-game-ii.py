@@ -11,8 +11,7 @@ class Solution:
         
         while i<=reachable:
             limit=reachable
-            if i==n-1:
-                return count
+            
             while i<=limit:
                 if i==n-1:
                     return count
