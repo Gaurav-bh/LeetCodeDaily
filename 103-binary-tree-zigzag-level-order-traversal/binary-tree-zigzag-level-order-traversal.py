@@ -18,9 +18,7 @@ class Solution:
         while node:
             l=len(node)
             temp=[]
-            print("node:- ",node)
-            print()
-            print()
+            
             while l:
                 curr=node.pop()
                 temp.append(curr.val)
